@@ -1,0 +1,80 @@
+<?php
+/**
+*@file
+*cron monitor module
+*/
+/**
+*implementation of hook permission
+*/
+function deletelog_permission() {
+  return array(
+    'administer deletelog' => array(
+      'title' => t('Administer Delete Log'),
+      'description' => t('Perform administration tasks for delete log.'),
+    ),
+  );
+}
+/**
+*implemenatation of hook_menu
+*/
+function deletelog_menu() {
+   $items['admin/config/deletelog'] = array(
+  'title' => 'Delete log settings',
+  'type' => MENU_NORMAL_ITEM,
+  'page callback' => 'drupal_get_form',
+'page arguments'=>array('deletelog_admin_form'),
+'access arguments'=>array('administer deletelog'),
+  // Page callback, etc. need to be added here.
+);
+return $items;
+}
+/**
+* implementation of cron monitor admin form
+*/
+function deletelog_admin_form($form ,&$form_state) {
+	$form['deletelog_enable'] = array(
+    	'#type' =>'checkbox', 
+    	'#title' => t('Enable Delete log'),
+    	 '#default_value'=>variable_get('deletelog_enable',0),
+
+);
+  /* $form['cronmonitor_email_text'] = array(
+  '#title' => t('Text to send with Cron Monitor'),
+'#type' => 'textarea',
+'#description' => t('Enter some text to send To send with Cron Monitor Email'),
+'#default_value' => variable_get('cronmonitor_email_text',''),
+);
+*/
+    return system_settings_form($form);
+
+}
+
+/**
+* implementation of hook cron
+*/
+/*
+function cronmonitor_cron() {
+	 if(variable_get('cronmonitor_enable',0))
+		{
+                   drupal_mail('cronmonitor','cronmonitor_email','sumedhabb1996@gmail.com',language_default());
+		}
+  
+  }
+*/
+/**
+*implementation of hook mail
+*/
+
+/*function cronmonitor_mail($key, &$message, $params) {
+ 	switch($key)
+	{
+           case 'cronmonitor_email':
+		$message['subject']=t('This is Cron Monitor Report');
+		$message['body'][]=t('This is report from cron monitr on @site-name ',array('@site-name'=>variable_get('site-name','sumedha site')));
+		$message['body'][]=t(variable_get('cronmonitor_email_text',''));
+		
+                break;
+
+	}
+}*/
+?>
